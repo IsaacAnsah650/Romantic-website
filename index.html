@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chidinma</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        .fairy {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 100;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .start-btn {
+            background: linear-gradient(45deg, #ff6b8b, #ff8e53);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+            font-family: 'Permanent Marker', cursive;
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 107, 139, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="welcome-text">Welcome Chidinma!</h1>
+        <p class="subtext">I've got something special for you...</p>
+        <button class="start-btn" onclick="navigateToQuestion()">Let's Begin</button>
+    </div>
+    
+    <div class="fairy" id="fairy"></div>
+    
+    <script src="transitions.js"></script>
+    <script>
+        function navigateToQuestion() {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'question.html';
+            }, 800);
+        }
+        
+        // Make fairy follow mouse
+        document.addEventListener('mousemove', (e) => {
+            const fairy = document.getElementById('fairy');
+            fairy.style.left = (e.pageX - 40) + 'px';
+            fairy.style.top = (e.pageY - 40) + 'px';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chidinma</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        /* ===== BASE STYLES ===== */
+        body.final-page {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+            font-family: 'Patrick Hand', cursive;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== MUSIC PLAYER ===== */
+        .music-player {
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .song-option {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #ff6b8b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem;
+        }
+        
+        .song-option:hover {
+            background: #ff4757;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+        }
+
+        .music-controls {
+            margin-top: 15px;
+        }
+        
+        .music-controls button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            background: #52b788;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* ===== LOVE LETTER ===== */
+        .love-letter {
+            background: rgba(255,255,255,0.8);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ===== REPLY BUTTON ===== */
+        .reply-btn-container {
+            text-align: center; 
+            margin-top: 40px;
+        }
+
+        .reply-btn {
+            background: linear-gradient(45deg, #ff6b8b, #ff4757);
+            color: white; 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 50px; 
+            font-size: 1.2rem; 
+            cursor: pointer;
+            font-family: 'Patrick Hand', cursive;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+        }
+
+        .reply-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 139, 0.6);
+        }
+
+        /* ===== PAGE TRANSITIONS ===== */
+        .fade-out {
+            animation: fadeOut 0.8s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .song-option {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .love-letter {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+            
+            .reply-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body class="final-page">
+    <div class="container">
+        <div class="music-player">
+            <h3>Choose our song:</h3>
+            <button class="song-option" onclick="playSong('song1')">"Let Me Down Slowly" (Alec Benjamin)</button>
+            <button class="song-option" onclick="playSong('song2')">"Lovely" (Billie Eilish & Khalid)</button>
+            
+            <div class="music-controls">
+                <button onclick="playAudio()">▶ Play</button>
+                <button onclick="pauseAudio()">⏸ Pause</button>
+                <button onclick="volumeDown()">🔉 Vol-</button>
+                <button onclick="volumeUp()">🔊 Vol+</button>
+            </div>
+            
+            <audio id="background-music" loop></audio>
+        </div>
+        
+        <div class="love-letter">
+            <p>My Dearest Chidinma,</p>
+            <p>From the moment I met you, I knew there was something special about you. Your smile lights up my world in ways I can't even begin to describe...</p>
+            <p>You remeber when i said i would do a website for u ba?</p>
+            <p>Forever yours,</p>
+            <p>Isaac ur Luv</p>
+        </div>
+
+        <div class="reply-btn-container">
+            <button class="reply-btn" onclick="navigateToReply()">❤️ Send Me a Reply ❤️</button>
+        </div>
+    </div>
+    
+    <script>
+        // Audio element reference
+        const audio = document.getElementById('background-music');
+        
+        // Play song function - FIXED
+        function playSong(song) {
+            const songFiles = {
+                'song1': 'Alec-Benjamin-Let-Me-Down-Slowly-Sped-Up-(Mayortunes.com).mp3',
+                'song2': 'Billie Eilish, Khalid - lovely [V1Pl8CzNzCw].mp3'
+            };
+            
+            // First pause if already playing
+            audio.pause();
+            
+            // Set new source
+            audio.src = `assets/${songFiles[song]}`;
+            
+            // Play the audio - with error handling
+            audio.play().then(() => {
+                console.log("Audio playing successfully");
+                localStorage.setItem('lastSongPlayed', songFiles[song]);
+                
+                // Show which song is playing
+                const songTitles = {
+                    'song1': "Let Me Down Slowly",
+                    'song2': "Lovely"
+                };
+                document.querySelector('.music-player h3').innerHTML = 
+                    `Now Playing: <span style="color:#ff4757">${songTitles[song]}</span>`;
+            }).catch(error => {
+                console.error("Audio playback failed:", error);
+                alert("Error playing music. Please make sure the audio files are in the assets folder.");
+            });
+        }
+
+        // Audio control functions - FIXED
+        function playAudio() {
+            audio.play().catch(error => {
+                console.error("Play failed:", error);
+                if (!audio.src) {
+                    alert("Please select a song first!");
+                }
+            });
+        }
+        
+        function pauseAudio() {
+            audio.pause();
+        }
+        
+        function volumeDown() {
+            if (audio.volume > 0.1) {
+                audio.volume -= 0.1;
+            } else {
+                audio.volume = 0;
+            }
+        }
+        
+        function volumeUp() {
+            if (audio.volume < 0.9) {
+                audio.volume += 0.1;
+            } else {
+                audio.volume = 1;
+            }
+        }
+
+        // Navigate to reply page - FIXED
+        function navigateToReply() {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'reply.html';
+            }, 800);
+        }
+
+        // Initialize with first song if none playing - FIXED
+        window.addEventListener('DOMContentLoaded', () => {
+            // Try to load last played song
+            const lastSongPath = localStorage.getItem('lastSongPlayed');
+            if (lastSongPath) {
+                audio.src = `assets/${lastSongPath}`;
+                audio.load(); // Important for some browsers
+                
+                // Set the correct "Now Playing" text
+                const songTitles = {
+                    'C:\Users\Godwin\Documents\Isaac Website\assets\Alec-Benjamin-Let-Me-Down-Slowly-Sped-Up-(Mayortunes.com).mp3': "Let Me Down Slowly",
+                    'C:\Users\Godwin\Documents\Isaac Website\assets\Billie Eilish, Khalid - lovely [V1Pl8CzNzCw].mp3': "Lovely"
+                };
+                if (songTitles[lastSongPath]) {
+                    document.querySelector('.music-player h3').innerHTML = 
+                        `Now Playing: <span style="color:#ff4757">${songTitles[lastSongPath]}</span>`;
+                }
+            } else {
+                // Default to first song if none was playing
+                playSong('song1');
+            }
+            
+            // Add click event to reply button for testing
+            document.querySelector('.reply-btn').addEventListener('click', navigateToReply);
+        });
+    </script>
+</body>
+</html>

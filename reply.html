@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Reply</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        /* ===== BASE STYLES ===== */
+        body.final-page {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+            font-family: 'Patrick Hand', cursive;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .reply-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADINGS ===== */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff4757;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        /* ===== PRE-WRITTEN MESSAGE SECTION ===== */
+        .pre-written {
+            background: #ffe6eb;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pre-written:hover {
+            background: #ffd1dc;
+            transform: scale(1.02);
+        }
+
+        .pre-written p:first-child {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .pre-written-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #ff4757;
+            margin: 0;
+        }
+
+        /* ===== TEXT AREA ===== */
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 2px solid #ff6b8b;
+            border-radius: 15px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            resize: none;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 107, 139, 0.5);
+            transform: scale(1.01);
+        }
+
+        /* ===== CHARACTER COUNTER ===== */
+        .char-counter {
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #ff4757;
+        }
+
+        /* ===== PHOTO UPLOAD ===== */
+        .photo-upload {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .upload-btn {
+            background: #74b9ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .upload-btn:hover {
+            background: #0984e3;
+            transform: scale(1.05);
+        }
+
+        #photo-upload {
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 15px;
+            border-radius: 10px;
+            display: none;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== SEND BUTTON ===== */
+        .send-btn {
+            background: linear-gradient(45deg, #ff6b8b, #ff4757);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Patrick Hand', cursive;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 139, 0.6);
+        }
+
+        /* ===== SUCCESS MESSAGE ===== */
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            animation: pulse 2s infinite;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* ===== FLOATING HEARTS ===== */
+        .heart-float {
+            position: fixed;
+            font-size: 20px;
+            animation: float-up 4s linear infinite;
+            opacity: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 600px) {
+            .reply-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            textarea {
+                font-size: 1.2rem;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body class="final-page">
+    <div class="reply-container">
+        <h1>Your Turn, Chidinma!</h1>
+        <p style="font-size: 1.2rem;">I've poured my heart out to you... now it's your turn to reply!</p>
+        
+        <div class="pre-written" onclick="usePreWritten()">
+            <p>Click here to use my pre-written message for you:</p>
+            <p class="pre-written-message">I LOVE U CHIDINMA ❤️</p>
+        </div>
+        
+        <textarea id="message" placeholder="Type your sweet reply here..." oninput="updateCounter()"></textarea>
+        <div class="char-counter" id="counter">0/500 characters</div>
+        
+        <div class="photo-upload">
+            <label class="upload-btn">
+                <i class="fas fa-camera"></i> Add Photo
+                <input type="file" id="photo-upload" accept="image/*" onchange="previewImage()">
+            </label>
+            <img id="preview" class="preview-image">
+        </div>
+        
+        <button class="send-btn" onclick="sendMessage()">Send Love Back ❤️</button>
+        
+        <div id="success-message" class="hidden success-message">
+            <h2 style="color: #2ecc71;"><i class="fas fa-heart"></i> Message Sent!</h2>
+            <p>Your reply has been saved in our special love archive!</p>
+        </div>
+    </div>
+    
+    <script>
+        // ===== CHARACTER COUNTER =====
+        function updateCounter() {
+            const message = document.getElementById('message').value;
+            const counter = document.getElementById('counter');
+            const length = message.length;
+            counter.textContent = `${length}/500 characters`;
+            
+            // Romantic messages at certain lengths
+            if (length > 0 && length < 10) {
+                counter.innerHTML += " - Just getting started!";
+            } else if (length >= 10 && length < 30) {
+                counter.innerHTML += " - Warming up my heart!";
+            } else if (length >= 30 && length < 100) {
+                counter.innerHTML += " - You're making me blush!";
+            } else if (length >= 100) {
+                counter.innerHTML += " - My heart is melting! ❤️";
+            }
+        }
+        
+        // ===== PHOTO UPLOAD =====
+        function previewImage() {
+            const file = document.getElementById('photo-upload').files[0];
+            const preview = document.getElementById('preview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // ===== PRE-WRITTEN MESSAGE =====
+        function usePreWritten() {
+            document.getElementById('message').value = 'I LOVE U CHIDINMA ❤️';
+            updateCounter();
+            
+            // Create heart explosion effect
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        }
+        
+        // ===== FLOATING HEARTS =====
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 1 + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+        
+        // Create some hearts on load
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+        
+        // ===== SEND MESSAGE FUNCTION =====
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            const photo = document.getElementById('photo-upload').files[0];
+            
+            if(message.trim() === '') {
+                alert("Please write something sweet first!");
+                return;
+            }
+            
+            // Show loading state
+            const btn = document.querySelector('.send-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+            
+            // Simulate sending (replace with real implementation)
+            setTimeout(() => {
+                // Save to localStorage
+                const reply = {
+                    message: message,
+                    timestamp: new Date().toISOString(),
+                    hasPhoto: !!photo
+                };
+                localStorage.setItem('chidinmaReply', JSON.stringify(reply));
+                
+                // Show success
+                document.getElementById('success-message').classList.remove('hidden');
+                document.querySelector('.send-btn').style.display = 'none';
+                
+                // Create celebration hearts
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(createHeart, i * 100);
+                }
+            }, 1500);
+        }
+        
+        // ===== MUSIC CONTINUITY =====
+        window.addEventListener('DOMContentLoaded', () => {
+            const lastSong = localStorage.getItem('lastSongPlayed');
+            if (lastSong) {
+                const audio = new Audio(`assets/${lastSong}`);
+                audio.volume = 0.3;
+                audio.loop = true;
+                audio.play();
+            }
+        });
+    </script>
+</body>
+</html>
